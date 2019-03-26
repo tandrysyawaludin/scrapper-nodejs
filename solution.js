@@ -1,3 +1,12 @@
+/*
+Name: Tandry Syawaludin
+I have a problem when I wanna write into a file,
+I always got wrong sub-categories in each categories.
+So, I do an alternative way, it is to add attribute "category"
+
+Perhaps it can still become your consideration.
+*/
+
 'use strict';
 
 require('colors');
@@ -46,8 +55,8 @@ async function detailLinksCollector(categories) {
         const $ = cheerio.load(body);
         
         $('#promolain').each((i, value) => {
-            $(value).find('a').each((j, data) => {                                             
-                subCategoriesCollector(category, data.attribs.href)
+            $(value).find('a').each((j, data) => {                                                                 
+                let a = subCategoriesCollector(category, data.attribs.href)
             });
         });
     }))    
@@ -73,9 +82,9 @@ async function subCategoriesCollector(category, link) {
         start_period: $('.periode b')[0]['children'][0]['data'].replace(/[^a-zA-Z0-9 ]/g, "").trim(),
         end_period: $('.periode b')[1]['children'][0]['data'],
         category: category
-    }
+    }  
     
-    resultSetter(category, subCategory)
+    resultSetter(category, subCategory);
 }
 
 function fetchSubCategories(link) {
@@ -92,8 +101,8 @@ function fetchSubCategories(link) {
 
 function resultSetter(category, subCategory) {
     subCategories = [...subCategories, subCategory]
-    result[category] = subCategories
-    
+    result[category] = subCategories    
+
     fs.writeFile ("solution.json", JSON.stringify(subCategories, null, 2), function(err) {
         if (err) throw err;
         console.log('complete');
